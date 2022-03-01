@@ -3,6 +3,4 @@ import { API } from "SupabaseAPI";
 
 export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
   API.auth.api.setAuthCookie(req, res);
-
-  res.redirect(301, "todos");
 };

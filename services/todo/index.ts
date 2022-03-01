@@ -4,9 +4,7 @@ import { API } from "SupabaseAPI";
 export const TODO_URL_KEY = "/api/todo";
 
 export async function GetTodos() {
-  return await (
-    await API.from<TodoItemModel>("todo").select("*").order("id", { ascending: false })
-  ).data;
+  return (await API.from<TodoItemModel>("todo").select("*").order("id", { ascending: false })).data;
 }
 
 export async function UpdateTodo(todo: Partial<TodoItemModel>) {
@@ -14,9 +12,7 @@ export async function UpdateTodo(todo: Partial<TodoItemModel>) {
 }
 
 export async function AddTodo(todo: TodoItemModel) {
-  return await (
-    await API.from<TodoItemModel>("todo").insert(todo)
-  ).data;
+  return (await API.from<TodoItemModel>("todo").insert(todo)).data;
 }
 
 export async function DeleteCompletedTodos() {
@@ -33,6 +29,5 @@ export async function DeleteSelectedTodos(todos: TodoItemModel[]) {
       )
   ).data;
 }
-
 
 export const sleep = (ms = 1000) => new Promise((resolve) => setTimeout(resolve, ms));

@@ -14,6 +14,8 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = React.useState<User | null | undefined>(null);
 
+  const [authenticated, setAuthenticated] = React.useState<undefined | "authenticated" | "not-authenticated">();
+
   const [queryClient] = React.useState(() => new QueryClient());
 
   const router = useRouter();
@@ -21,21 +23,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   const handleAuthChange = async (event: AuthChangeEvent, session: Session | null) => {
     if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
       setUser(session?.user);
-      return await fetch("/api/auth", { headers: new Headers({ "content-type": "application/json" }), method: "POST", body: JSON.stringify({ event, session }) });
+      await fetch("/api/auth", { headers: new Headers({ "content-type": "application/json" }), method: "POST", body: JSON.stringify({ event, session }) });
+      setAuthenticated("authenticated");
     }
 
     if (event === "SIGNED_OUT") {
       setUser(null);
       await fetch("/api/logout", { headers: new Headers({ "content-type": "application/json" }), method: "POST", body: JSON.stringify({ event, session }) });
       // router.replace("login");
+      setAuthenticated("not-authenticated");
     }
   };
 
   React.useEffect(() => {
     const { data: AuthData } = API.auth.onAuthStateChange(async (event, session) => {
       await handleAuthChange(event, session);
-      console.log("Event change -> ", event);
-      setUser(session?.user);
     });
 
     return () => {
@@ -51,14 +53,24 @@ function MyApp({ Component, pageProps }: AppProps) {
     const _currentUser = user || u || pageProps.context.auth.user;
 
     if (_currentUser) {
-      router.replace("todos");
+      setAuthenticated("authenticated");
     }
+
+    // if (_currentUser) {
+    //   router.replace("todos");
+    // }
 
     // if (pageProps.context.auth || u) {
     // }
   }, [user]);
 
-  const Layout = user || pageProps?.context?.auth ? PrivateLayout : PublicLayout;
+  React.useEffect(() => {
+    if (authenticated === "authenticated") {
+      router.replace("todos");
+    }
+  }, [authenticated]);
+
+  const Layout = authenticated == "authenticated" ? PrivateLayout : PublicLayout;
 
   return (
     <QueryClientProvider client={queryClient}>
