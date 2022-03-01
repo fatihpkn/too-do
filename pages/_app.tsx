@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [authenticated]);
 
-  const Layout = authenticated == "authenticated" ? PrivateLayout : PublicLayout;
+  const Layout = authenticated == "authenticated" || user ? PrivateLayout : PublicLayout;
 
   return (
     <QueryClientProvider client={queryClient}>
