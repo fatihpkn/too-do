@@ -44,7 +44,7 @@ const Home: NextPage<HomeProps> = (props) => {
             <div className='flex flex-col gap-3'>
               <div className='flex flex-1 flex-col'>
                 <h1 className='text-lg font-bold text-purple-700 w-full'>Login via e-mail</h1>
-                <span className='italic text-[10px] leading-none'>won't ask anything else</span>
+                <span className='italic text-[10px] leading-none'>wont ask anything else</span>
               </div>
               <div className='flex flex-1'>
                 <input
@@ -52,7 +52,7 @@ const Home: NextPage<HomeProps> = (props) => {
                   type={"text"}
                   placeholder='example@email.com'
                   disabled={formState.isSubmitting}
-                  className={`border tracking-wide text-center transition-all duration-300 py-3 px-6 rounded-xl outline-transparent text-sm focus:outline-purple-500 w-full disabled:opacity-50`}
+                  className='border tracking-wide text-center transition-all duration-300 py-3 px-6 rounded-xl outline-transparent text-sm focus:outline-purple-500 w-full disabled:opacity-50'
                 />
               </div>
               <div className='flex flex-1 justify-center'>
