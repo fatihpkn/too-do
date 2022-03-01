@@ -7,9 +7,19 @@ import { API } from "SupabaseAPI";
 interface LogoutProps {}
 
 const Logout: NextPage<LogoutProps> = (props) => {
+  const router = useRouter();
+
   React.useEffect(() => {
-    const session = API.auth.session();
-    API.auth.signOut();
+    const handleSignOut = async () => {
+      const session = API.auth.session();
+      if (session?.access_token) {
+        await API.auth.api.signOut(session?.access_token);
+      }
+      API.auth.signOut();
+      router.replace("/login");
+    };
+
+    handleSignOut();
   }, []);
 
   return (

@@ -39,6 +39,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     API.auth.setAuth(user.token);
     return { props: {}, redirect: { destination: "todos" } };
   } else {
-    return { props: { context: { auth: { user: user } } } };
+    return { props: { context: { auth: { user: null } } } };
   }
 };

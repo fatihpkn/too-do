@@ -8,9 +8,6 @@ interface IHeaderProps {}
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   const currentUser = API.auth.user();
 
-  const handleLogout = async () => {
-    await API.auth.signOut();
-  };
 
   return (
     <div className='py-2 mb-4'>
@@ -22,7 +19,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
           <div className='rounded-lg inline-flex items-center py-2 px-3'>
             <span className='text-xs'>{currentUser?.email}</span>
             <Link href='logout' passHref>
-              <a className='rounded-full ml-2 text-xs inline-flex items-center px-3 py-1 bg-red-500 text-white outline-red-600 outline-offset-2 transition-all' onClick={handleLogout}>
+              <a className='rounded-full ml-2 text-xs inline-flex items-center px-3 py-1 bg-red-500 text-white outline-red-600 outline-offset-2 transition-all'>
                 Logout
               </a>
             </Link>

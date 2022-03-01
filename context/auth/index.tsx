@@ -1,5 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import React, { createContext, useContext } from "react";
+import { API } from "SupabaseAPI";
 
 interface AuthContextData {
   user?: User | null;
@@ -17,6 +18,16 @@ export const AuthProvider: React.FC<{ initialValue: Partial<AuthContextData> }> 
   console.log("initial value -> ", initialValue);
 
   const [user, setUser] = React.useState<User | null | undefined>(initialValue?.user || null);
+
+  React.useEffect(() => {
+    const { data: AuthData } = API.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user);
+    });
+
+    return () => {
+      AuthData?.unsubscribe();
+    };
+  }, []);
 
   const handleSetUser = (us: User | null | undefined) => {
     setUser(us);
