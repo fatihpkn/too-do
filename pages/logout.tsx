@@ -9,6 +9,7 @@ interface LogoutProps {}
 const Logout: NextPage<LogoutProps> = (props) => {
   React.useEffect(() => {
     const session = API.auth.session();
+    API.auth.signOut();
   }, []);
 
   return (
@@ -46,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   if (!session.token) {
-    return { props: {}, redirect: { destination: "/login", permanent: false } };
+    return { props: { context: { auth: { user: null } } } };
   }
 
   return {
